@@ -10,21 +10,43 @@ GEM
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
     diff-lcs (1.2.5)
+    dotenv (2.1.1)
     extlib (0.9.16)
+    faraday (0.9.2)
+      multipart-post (>= 1.2, < 3)
     highline (1.7.8)
     mime-types (3.0)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0221)
     mini_portile2 (2.0.0)
+    multipart-post (2.0.0)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    octokit (4.3.0)
+      sawyer (~> 0.7.0, >= 0.5.3)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    rspec (3.4.0)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
+    rspec-core (3.4.4)
+      rspec-support (~> 3.4.0)
+    rspec-expectations (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-mocks (3.4.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
     rspec-sinatra (0.1.2)
       templater (>= 1.0.0)
+    rspec-support (3.4.1)
+    sawyer (0.7.0)
+      addressable (>= 2.3.5, < 2.5)
+      faraday (~> 0.8, < 0.10)
     sinatra (1.4.7)
       rack (~> 1.5)
       rack-protection (~> 1.4)
@@ -42,6 +64,9 @@ PLATFORMS
 
 DEPENDENCIES
   capybara
+  dotenv
+  octokit (~> 4.0)
+  rspec
   rspec-sinatra
   sinatra
 
