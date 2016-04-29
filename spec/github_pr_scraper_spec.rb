@@ -4,8 +4,8 @@ describe GitHubPrScraper do
   subject(:scraper) { GitHubPrScraper.new }
 
   describe 'Default' do
-    it 'initializes with login_user set to nil' do
-      expect(scraper.login_user).to be_nil
+    it 'initializes with login_user set to an authenticated Github user' do
+      expect(scraper.login_user).to have_attributes(login: 'emmabeynon')
     end
 
     it 'initializes with repos set to nil' do
@@ -15,20 +15,24 @@ describe GitHubPrScraper do
     it 'initializes with an organisation set to \'alphagov\'' do
       expect(scraper.organisation).to eq 'alphagov'
     end
-  end
 
-  describe '#authenticate' do
-    it 'authenticates a user' do
-      expect(scraper.authenticate).to have_attributes(login: 'emmabeynon')
+    it 'initializes with pull_requests set to an empty array' do
+      expect(scraper.pull_requests).to be_empty
     end
   end
 
   describe '#fetch_repos' do
     it 'returns a list of repos on Alphagov' do
-      scraper.authenticate
       scraper.fetch_repos
-      expect(scraper.repos).not_to be_nil
-      #needs a more thorough test i.e. something we would expect to be in repo list
+      expect(scraper.repos.any?{ |hash| hash[:id] == 7052482 }).to be true
+    end
+  end
+
+  describe '#fetch_pull_requests' do
+    it 'returns a list of open pull requests from repos on Alphagov' do
+      scraper.fetch_repos
+      scraper.fetch_pull_requests
+      expect(scraper.pull_requests.any?{ |hash| hash[:url] == "https://api.github.com/repos/alphagov/govspeak/pulls/69" }).to be true
     end
   end
 end

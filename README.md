@@ -18,8 +18,12 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 
 **29/04/16**
 - Added Dotenv gem to maintain secret keys
-- Created tests to authenticate API, fetch alphagov repos
+- Created tests to authenticate API, fetch alphagov repos and fetch pull requests
 - Created GitHubPrScraper class to manage interaction with GithHub API
+
+**05/05/16**
+- Fixed Octokit pagination so that all repos are retrieved
+- Set up Travis CI
 
 #### Next:
 - Mock Github API
