@@ -28,6 +28,7 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 
 **09/05/16**
 - Github API is mocked using let statements
+- Now able to fetch a list of commits from each open pull request
 
 #### Next:
-- Grab commits and/or pull request comments for each pull request
+- Filter commits for links to Trello cards

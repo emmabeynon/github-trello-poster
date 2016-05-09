@@ -1,7 +1,11 @@
+require 'github_pr_scraper'
 describe 'Github API' do
-  subject(:client) { Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN']) }
+  subject(:scraper) { GitHubPrScraper.new }
 
-  xit 'returns a list of pull requests on Alphagov' do
-    client.pull_requests(repo, state: 'open')
+  it 'returns a list of commits from pull requests on Alphagov' do
+    scraper.fetch_repos
+    scraper.fetch_pull_requests
+    scraper.fetch_commits
+    expect(scraper.commits).not_to be nil
   end
 end

@@ -3,14 +3,21 @@ require 'github_pr_scraper'
 describe GitHubPrScraper do
   subject(:scraper) { GitHubPrScraper.new }
   let(:octokit) { double Octokit::Client }
-  let(:repos) { [{ id: 7052482 }, { id: 56678576 }] }
-  let(:repo_pull_requests) { [{url: 'https://api.github.com/repos/alphagov/govspeak/pulls/69'}] }
+  let(:repositories) { [{ id: 7052482 }, { id: 56678576 }] }
+  let(:repo_pull_requests) do
+    [ { url: 'https://api.github.com/repos/alphagov/govspeak/pulls/69',
+        number: 474,
+        head: { repo: { id: 7052482 } }
+      } ]
+  end
+  let(:commits) do { commit: { message: 'A commit' } } end
 
   before(:each) do
     allow(octokit).to receive(:new).and_return(octokit)
     allow(octokit).to receive(:auto_paginate=).and_return true
-    allow(scraper.login_user).to receive(:organization_repositories).and_return(repos)
+    allow(scraper.login_user).to receive(:organization_repositories).and_return(repositories)
     allow(scraper.login_user).to receive(:pull_requests).and_return(repo_pull_requests)
+    allow(scraper.login_user).to receive(:pull_request_commits).and_return(commits)
   end
 
   describe 'Default' do
@@ -19,11 +26,7 @@ describe GitHubPrScraper do
     end
 
     it 'initializes with repos set to nil' do
-      expect(scraper.repos).to be_nil
-    end
-
-    it 'initializes with an organisation set to \'alphagov\'' do
-      expect(scraper.organisation).to eq GitHubPrScraper::ORGANISATION
+      expect(scraper.repos).to be nil
     end
 
     it 'initializes with pull_requests set to an empty array' do
@@ -45,4 +48,14 @@ describe GitHubPrScraper do
       expect(scraper.pull_requests.any?{ |hash| hash[:url] == "https://api.github.com/repos/alphagov/govspeak/pulls/69" }).to be true
     end
   end
+
+  describe '#fetch_commits' do
+    it 'returns a list of commits from open pull requests on Alphagov' do
+      scraper.fetch_repos
+      scraper.fetch_pull_requests
+      scraper.fetch_commits
+      expect(scraper.commits).to include commits
+    end
+  end
+
 end
