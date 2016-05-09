@@ -19,9 +19,8 @@ class GitHubPrScraper
 
   def fetch_pull_requests
     repos.each do |repo|
-      if !login_user.pull_requests(repo.id).empty?
-        @pull_requests << login_user.pull_requests(repo.id)
-      end
+      repo_pull_requests = login_user.pull_requests(repo[:id])
+      @pull_requests << repo_pull_requests if !repo_pull_requests.empty?
     end
     @pull_requests.flatten!
   end
