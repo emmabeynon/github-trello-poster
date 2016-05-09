@@ -1,4 +1,5 @@
 # GDS-Github-Trello
+[![Build Status](https://travis-ci.org/emmabeynon/gds-github-trello.svg?branch=master)](https://travis-ci.org/emmabeynon/gds-github-trello)
 
 ## The Problem
 App that queries Github’s API to look at alphagov’s PRs, and when a link to a Trello card is mentioned in the PR, post a message to the team’s Trello board, with the reference of the PR.
@@ -25,5 +26,8 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 - Fixed Octokit pagination so that all repos are retrieved
 - Set up Travis CI
 
+**09/05/16**
+- Github API is mocked using let statements
+
 #### Next:
-- Mock Github API
+- Grab commits and/or pull request comments for each pull request

@@ -1,15 +1,16 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 ruby '2.2.0'
-gem 'sinatra'
+
 gem 'octokit', '~> 4.0'
+gem 'sinatra'
 
 group :development, :test do
   gem 'dotenv'
 end
 
 group :test do
-  gem 'rspec-sinatra'
+  gem 'byebug'
   gem 'capybara'
   gem 'rspec'
-  gem 'byebug'
+  gem 'rspec-sinatra'
 end
