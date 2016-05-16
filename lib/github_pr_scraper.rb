@@ -1,33 +1,23 @@
 class GitHubPrScraper
-  attr_reader :commits, :login_user, :pull_requests, :repos
+  attr_reader :commits, :login_user, :pull_requests
 
   ORGANISATION = ENV['GITHUB_ORGANISATION']
 
   def initialize
-    @commits = []
+    @commits = nil
     @login_user = authenticate
     @login_user.auto_paginate = true
-    @repos = nil
-    @pull_requests = []
-  end
-
-  def fetch_repos
-    @repos = login_user.organization_repositories(ORGANISATION, {:type => 'all'})
+    @pull_requests = nil
   end
 
   def fetch_pull_requests
-    repos.each do |repo|
-      repo_pull_requests = login_user.pull_requests(repo[:id])
-      @pull_requests << repo_pull_requests if !repo_pull_requests.empty?
-    end
-    @pull_requests.flatten!
+    @pull_requests = login_user.search_issues("is:pr state:open user:#{ORGANISATION}")[:items]
   end
 
   def fetch_commits
-    pull_requests.each do |pull_request|
-      @commits << login_user.pull_request_commits(pull_request[:head][:repo][:id], pull_request[:number])
+    @commits = pull_requests.each_with_object({}) do | pr, hash |
+      hash[pr[:pull_request][:html_url]] = pr[:body]
     end
-    @commits.flatten!
   end
 
   private
