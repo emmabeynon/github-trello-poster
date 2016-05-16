@@ -1,28 +1,17 @@
 class GitHubPrScraper
 
-  attr_reader :login_user, :organisation, :pull_requests, :repos
+  attr_reader :login_user, :pull_requests
 
   ORGANISATION = ENV['GITHUB_ORGANISATION']
 
-  def initialize(organisation=ORGANISATION)
+  def initialize
     @login_user = authenticate
     @login_user.auto_paginate = true
-    @organisation = organisation
-    @repos = nil
     @pull_requests = []
   end
 
-
-  def fetch_repos
-    @repos = login_user.organization_repositories(organisation, {:type => 'all'})
-  end
-
   def fetch_pull_requests
-    repos.each do |repo|
-      repo_pull_requests = login_user.pull_requests(repo[:id])
-      @pull_requests << repo_pull_requests if !repo_pull_requests.empty?
-    end
-    @pull_requests.flatten!
+    @pull_requests = login_user.search_issues("is:pr state:open user:#{ORGANISATION}")[:items]
   end
 
   private
