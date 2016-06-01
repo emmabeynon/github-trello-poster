@@ -14,4 +14,11 @@ describe 'Github API' do
     expect(scraper.commits).not_to be nil
   end
 
+  it 'returns a list of pull request URLs and corresponding Trello card IDs' do
+    scraper.fetch_pull_requests
+    scraper.fetch_commits
+    scraper.filter_trello_card_ids
+    expect(scraper.prs_and_trello_card_ids).not_to be nil
+  end
+
 end

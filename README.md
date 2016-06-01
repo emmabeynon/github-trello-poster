@@ -30,5 +30,15 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 - Github API is mocked using let statements
 - Now able to fetch a list of commits from each open pull request
 
+**16/05/16**
+- Fetch pull requests method changed to use Github search to grab all open pull requests on Alphagov, which has sped up the interaction with the API
+- Fetch commits method has been altered to work with the new fetch pull requests method
+- Fetch repos has been removed as it's now redundant
+
+**01/06/16**
+- Method created to filter commits for links to Trello cards
+- Currently using two data structures - one to store all PR URLs and commit body, and one to store PR URLs filtered by those containing a Trello card URL in the commit body.  Unsure at this point whether the combine the two, but will see how the code develops.
+
 #### Next:
-- Filter commits for links to Trello cards
+- Access Trello card
+- Set up dummy Github organisation for feature tests
