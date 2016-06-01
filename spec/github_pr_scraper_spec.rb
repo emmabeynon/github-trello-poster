@@ -5,7 +5,8 @@ describe GitHubPrScraper do
 
   let(:octokit) { double Octokit::Client }
   let(:commits) do
-    { 'https://github.com/alphagov/transition/pull/511' => 'A commit with a Trello URL https://trello.com/c/Xf9vMxZ9/5-grab-all-commit-messages-from-open-pull-requests' }
+    { 'https://github.com/alphagov/transition/pull/511' =>
+      'A commit with a Trello URL https://trello.com/c/Xf9vMxZ9/5-grab-all-commit-messages-from-open-pull-requests' }
   end
   let(:repo_pull_requests) do
     { items: [
@@ -14,6 +15,9 @@ describe GitHubPrScraper do
         body: 'A commit with a Trello URL https://trello.com/c/Xf9vMxZ9/5-grab-all-commit-messages-from-open-pull-requests'
       }
     ] }
+  end
+  let(:prs_and_trello_card_ids) do
+    { 'https://github.com/alphagov/transition/pull/511' => 'Xf9vMxZ9'}
   end
 
   before(:each) do
@@ -34,6 +38,10 @@ describe GitHubPrScraper do
     it 'initializes with pull_requests set to nil' do
       expect(scraper.commits).to be_nil
     end
+
+    it 'initializes with prs_and_trello_card_ids set to an empty hash' do
+      expect(scraper.prs_and_trello_card_ids).to be {}
+    end
   end
 
   describe '#fetch_pull_requests' do
@@ -48,6 +56,15 @@ describe GitHubPrScraper do
       scraper.fetch_pull_requests
       scraper.fetch_commits
       expect(scraper.commits).to eq commits
+    end
+  end
+
+  describe '#filter_trello_card_ids' do
+    it 'returns a list of pull request URLs and corresponding Trello card numbers from the commits' do
+      scraper.fetch_pull_requests
+      scraper.fetch_commits
+      scraper.filter_trello_card_ids
+      expect(scraper.prs_and_trello_card_ids).to eq prs_and_trello_card_ids
     end
   end
 
