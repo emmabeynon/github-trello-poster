@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
-ruby '2.2.0'
+ruby '2.3.0'
 
 gem 'octokit', '~> 4.0'
 gem 'sinatra'
+gem 'ruby-trello'
 
 group :development, :test do
   gem 'dotenv'

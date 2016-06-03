@@ -1,7 +1,7 @@
 # GDS-Github-Trello
 [![Build Status](https://travis-ci.org/emmabeynon/gds-github-trello.svg?branch=master)](https://travis-ci.org/emmabeynon/gds-github-trello)
 
-## The Problem
+## Overview
 App that queries Github’s API to look at alphagov’s PRs, and when a link to a Trello card is mentioned in the PR, post a message to the team’s Trello board, with the reference of the PR.
 
 ## User Stories
@@ -14,7 +14,7 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 ## Log
 **22/04/16**
 - Set up Gemfile with Sinatra, RSpec and Capybara gems
-- Added Octokit gem for interaction with the API
+- Added Octokit gem for interaction with the GitHub API
 - Set up a Trello board
 
 **29/04/16**
@@ -38,6 +38,10 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 **01/06/16**
 - Method created to filter commits for links to Trello cards
 - Currently using two data structures - one to store all PR URLs and commit body, and one to store PR URLs filtered by those containing a Trello card URL in the commit body.  Unsure at this point whether the combine the two, but will see how the code develops.
+
+**03/06/16**
+- Added ruby-trello gem to interact with the Trello API
+- Trello is authenticated using basic authentication - struggling to make it work using OAuth currently.
 
 #### Next:
 - Access Trello card
