@@ -42,7 +42,8 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 **03/06/16**
 - Added ruby-trello gem to interact with the Trello API
 - Trello is authenticated using basic authentication - struggling to make it work using OAuth currently.
+- Set up a dummy Github organisation for testing
+- Changed feature tests to work with dummy Github organisation
 
 #### Next:
 - Access Trello card
-- Set up dummy Github organisation for feature tests
