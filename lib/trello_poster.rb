@@ -6,6 +6,10 @@ class TrelloPoster
     authenticate
   end
 
+  def access_trello_card(trello_card_id)
+    Trello::Card.find(trello_card_id)
+  end
+
 private
 
   def authenticate
