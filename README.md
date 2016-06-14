@@ -45,5 +45,10 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 - Set up a dummy Github organisation for testing
 - Changed feature tests to work with dummy Github organisation
 
+**10/06/16**
+- Trello cards can now be accessed via the API using a unique card ID
+- Method created to check for the presence of a Pull Requests checklist on a given card
+- If a Pull Requests checklist is present, its id is stored in an array
+
 #### Next:
-- Access Trello card
+- Create a Pull requests checklist if one is not present.
