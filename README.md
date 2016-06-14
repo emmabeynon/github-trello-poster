@@ -50,5 +50,8 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 - Method created to check for the presence of a Pull Requests checklist on a given card
 - If a Pull Requests checklist is present, its id is stored in an array
 
+**14/06/16**
+- A Pull requests checklist is created if one is not already present.
+
 #### Next:
-- Create a Pull requests checklist if one is not present.
+- Post the Github PR URL to the Pull requests checklist.

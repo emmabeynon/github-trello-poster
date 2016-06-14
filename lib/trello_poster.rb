@@ -13,9 +13,10 @@ class TrelloPoster
   end
 
   def check_for_pr_checklist
-    trello_card.checklists.each do |checklist|
+    trello_card.checklists.detect do |checklist|
       @pr_checklist << checklist.id if is_a_pr_checklist?(checklist)
     end
+    create_pr_checklist if pr_checklist.empty?
   end
 
 private
@@ -25,6 +26,10 @@ private
       config.developer_public_key = ENV['TRELLO_PUBLIC_KEY']
       config.member_token = ENV['TRELLO_MEMBER_TOKEN']
     end
+  end
+
+  def create_pr_checklist
+    @pr_checklist << Trello::Checklist.create(name: "Pull Requests", card_id: @trello_card.id).id
   end
 
   def is_a_pr_checklist?(checklist)
