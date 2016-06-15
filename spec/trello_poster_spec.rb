@@ -26,6 +26,7 @@ describe TrelloPoster do
   describe 'When a Trello card contains a "Pull Requests" checklist' do
     before(:each) do
       allow(Trello::Card).to receive(:find).and_return(trello_card)
+      allow(Trello::Checklist).to receive(:find).and_return(checklist_2)
     end
 
     describe '#access_trello_card' do
@@ -58,9 +59,9 @@ describe TrelloPoster do
     describe '#check_for_pr_checklist' do
       it 'creates a checklist called "Pull Requests" if it does not already exist' do
         trello_poster.access_trello_card('abcd1234')
-        expect(trello_poster.pr_checklist).to be_empty
+        expect(trello_poster.pr_checklist).to be nil
         trello_poster.check_for_pr_checklist
-        expect(trello_poster.pr_checklist).to include(checklist_3.id)
+        expect(trello_poster.pr_checklist).to eq(checklist_3.id)
       end
     end
   end

@@ -53,5 +53,8 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 **14/06/16**
 - A Pull requests checklist is created if one is not already present.
 
+**15/06/16**
+- Added functionality to post a GitHub PR URL to a Pull Requests checklist.
+
 #### Next:
-- Post the Github PR URL to the Pull requests checklist.
+- Create interaction between GitHubPrScraper and TrelloPoster classes
