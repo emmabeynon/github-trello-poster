@@ -35,7 +35,7 @@ describe GitHubPrScraper do
       expect(scraper.pull_requests).to be_nil
     end
 
-    it 'initializes with pull_requests set to nil' do
+    it 'initializes with commits set to nil' do
       expect(scraper.commits).to be_nil
     end
 
@@ -65,6 +65,12 @@ describe GitHubPrScraper do
       scraper.fetch_commits
       scraper.filter_trello_card_ids
       expect(scraper.prs_and_trello_card_ids).to eq prs_and_trello_card_ids
+    end
+  end
+
+  describe '#post_to_trello' do
+    it 'initializes an instance of the TrelloPoster class' do
+      scraper.post_to_trello
     end
   end
 

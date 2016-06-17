@@ -1,14 +1,16 @@
 require 'trello'
 
 class TrelloPoster
-  attr_reader :pr_checklist, :trello_card
+  attr_reader :pr_checklist, :pr_url, :trello_card, :trello_card_id
 
-  def initialize
+  def initialize(pr_url, trello_card_id)
     authenticate
     @pr_checklist = nil
+    @pr_url = pr_url
+    @trello_card_id = trello_card_id
   end
 
-  def access_trello_card(trello_card_id)
+  def access_trello_card
     @trello_card = Trello::Card.find(trello_card_id)
   end
 
@@ -19,9 +21,9 @@ class TrelloPoster
     create_pr_checklist if pr_checklist.nil?
   end
 
-  def post_github_pr_url(url)
+  def post_github_pr_url
     checklist = Trello::Checklist.find(pr_checklist)
-    checklist.add_item(url, checked=false, position='bottom')
+    checklist.add_item(pr_url, checked=false, position='bottom')
   end
 
 private
