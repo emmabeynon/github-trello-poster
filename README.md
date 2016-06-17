@@ -56,5 +56,9 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 **15/06/16**
 - Added functionality to post a GitHub PR URL to a Pull Requests checklist.
 
+**17/06/16**
+- TrelloPoster is now injected as a dependency in the GitHubPrScraper class
+- GitHubPrScraper iterates through prs_and_trello_card_ids and creates an instance of the TrelloPoster class to post the PR URL to the Trello card
+
 #### Next:
-- Create interaction between GitHubPrScraper and TrelloPoster classes
+- Wire up classes to Sinatra
