@@ -1,7 +1,7 @@
 require 'trello_poster'
 
 class GitHubPrScraper
-  attr_reader :commits, :login_user, :prs_and_trello_card_ids, :pull_requests, :trello_poster
+  attr_reader :commits, :login_user, :pull_requests, :trello_poster
 
   ORGANISATION = ENV['GITHUB_ORGANISATION']
 
@@ -10,7 +10,6 @@ class GitHubPrScraper
     @login_user = authenticate
     @login_user.auto_paginate = true
     @pull_requests = nil
-    @prs_and_trello_card_ids = {}
     @trello_poster = trello_poster_klass
   end
 
@@ -24,27 +23,27 @@ class GitHubPrScraper
     end
   end
 
-  def filter_trello_card_ids
+  def filter_commits
     commits.each do |k,v|
-      trello_card_present = v.match(/https:\/\/trello.com\/c\/\w{8}/) if v
-      if trello_card_present
-        @prs_and_trello_card_ids[k] = trello_card_present[0].gsub(/https:\/\/trello.com\/c\//, '')
+      unless v.empty?
+        trello_card_present = v.match(/https:\/\/trello.com\/c\/\w{8}/)
+        post_to_trello(k, extract_trello_card_id(v)) if trello_card_present
       end
     end
   end
 
-  def post_to_trello
-    prs_and_trello_card_ids.each do |k, v|
-      poster = trello_poster.new(k, v)
-      poster.access_trello_card
-      poster.check_for_pr_checklist
-      poster.post_github_pr_url
-    end
-  end
-
-  private
+private
 
   def authenticate
     @login_user = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
+  end
+
+  def extract_trello_card_id(v)
+    trello_card_present = v.match(/https:\/\/trello.com\/c\/\w{8}/)
+    trello_card_present[0].gsub(/https:\/\/trello.com\/c\//, '')
+  end
+
+  def post_to_trello(pr_url, trello_card_id)
+    trello_poster.new(pr_url, trello_card_id)
   end
 end
