@@ -6,14 +6,15 @@ describe 'Pull Request Poster' do
   it 'posts a pull request URL to the Trello card referenced in its commit message' do
     scraper.fetch_pull_requests
     scraper.fetch_commits
-    scraper.filter_trello_card_ids
-    scraper.post_to_trello
+    scraper.filter_commits
 
-    trello_card = Trello::Card.find(scraper.prs_and_trello_card_ids.values[0])
+    pr_url = scraper.commits.keys.first
+    trello_card_id = scraper.commits[pr_url].match(/https:\/\/trello.com\/c\/\w{8}/)[0].gsub(/https:\/\/trello.com\/c\//, '')
+
+    trello_card = Trello::Card.find(trello_card_id)
 
     checklist = trello_card.checklists.first
-
-    expect(checklist.check_items.first['name']).to eq('https://github.com/gov-test-org/project-b/pull/1')
+    expect(checklist.check_items.first['name']).to eq(pr_url)
 
     checklist.delete_checklist_item(checklist.check_items.first['id'])
     checklist.delete

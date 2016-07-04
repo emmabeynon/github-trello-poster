@@ -15,10 +15,9 @@ describe 'Github API' do
   end
 
   it 'returns a list of pull request URLs and corresponding Trello card IDs' do
+    expect(TrelloPoster).to receive(:new).at_least(:once)
     scraper.fetch_pull_requests
     scraper.fetch_commits
-    scraper.filter_trello_card_ids
-    expect(scraper.prs_and_trello_card_ids).to include('https://github.com/gov-test-org/project-b/pull/1'=>'6wQLN2C7')
+    scraper.filter_commits
   end
-
 end

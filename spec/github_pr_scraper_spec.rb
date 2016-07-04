@@ -4,6 +4,7 @@ describe GitHubPrScraper do
   subject(:scraper) { GitHubPrScraper.new }
 
   let(:octokit) { double Octokit::Client }
+  let(:trello_poster) { double TrelloPoster }
   let(:commits) do
     { 'https://github.com/alphagov/transition/pull/511' =>
       'A commit with a Trello URL https://trello.com/c/Xf9vMxZ9/5-grab-all-commit-messages-from-open-pull-requests' }
@@ -38,10 +39,6 @@ describe GitHubPrScraper do
     it 'initializes with commits set to nil' do
       expect(scraper.commits).to be_nil
     end
-
-    it 'initializes with prs_and_trello_card_ids set to an empty hash' do
-      expect(scraper.prs_and_trello_card_ids).to be {}
-    end
   end
 
   describe '#fetch_pull_requests' do
@@ -59,19 +56,12 @@ describe GitHubPrScraper do
     end
   end
 
-  describe '#filter_trello_card_ids' do
-    it 'returns a list of pull request URLs and corresponding Trello card numbers from the commits' do
+  describe '#filter_commits' do
+    it 'filters commits for those containing Trello card URLs and initializes a new trello poster instance' do
+      expect(TrelloPoster).to receive(:new).with(commits.keys.first, 'Xf9vMxZ9').and_return(trello_poster)
       scraper.fetch_pull_requests
       scraper.fetch_commits
-      scraper.filter_trello_card_ids
-      expect(scraper.prs_and_trello_card_ids).to eq prs_and_trello_card_ids
+      scraper.filter_commits
     end
   end
-
-  describe '#post_to_trello' do
-    it 'initializes an instance of the TrelloPoster class' do
-      scraper.post_to_trello
-    end
-  end
-
 end
