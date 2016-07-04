@@ -9,24 +9,30 @@ describe 'Trello API' do
   end
 
   it 'checks if a checklist called "Pull Requests" is present' do
-    trello_poster_1.access_trello_card
     expect(trello_poster_1.pr_checklist).to eq('5763eec88f68ea12654b44a7')
   end
 
   it 'creates a checklist called "Pull Requests" if there is not one present' do
-    trello_poster_2.access_trello_card
     expect(trello_poster_2.pr_checklist).not_to be nil
 
     Trello::Checklist.find(trello_poster_2.pr_checklist).delete
   end
 
   it 'posts a GitHub PR URL to a Trello card checklist called "Pull Requests"' do
-    trello_poster_1.access_trello_card
-    trello_poster_1.post_github_pr_url
-
     checklist = Trello::Checklist.find(trello_poster_1.pr_checklist)
 
     expect(checklist.check_items.first['name']).to eq('https://github.com/gov-test-org/project-a/pull/1')
+
+    checklist.delete_checklist_item(checklist.check_items.first['id'])
+  end
+
+  it 'does not post a Github PR URL to a "Pull Requests checklist if it is already present in the checklist"' do
+    checklist = Trello::Checklist.find(trello_poster_1.pr_checklist)
+
+    trello_poster_1.access_trello_card
+    trello_poster_1.post_github_pr_url
+
+    expect(checklist.check_items.count).to eq(1)
 
     checklist.delete_checklist_item(checklist.check_items.first['id'])
   end

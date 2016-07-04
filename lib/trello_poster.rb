@@ -26,7 +26,9 @@ class TrelloPoster
 
   def post_github_pr_url
     checklist = Trello::Checklist.find(pr_checklist)
-    checklist.add_item(pr_url, checked=false, position='bottom')
+    unless checklist.check_items.detect { |item| item["name"] == pr_url }
+      checklist.add_item(pr_url, checked=false, position='bottom')
+    end
   end
 
 private
