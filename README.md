@@ -63,6 +63,7 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 **04/07/16**
 - TrelloPoster and GitHubPrScraper classes refactored to reduce dependency on each other
 - Added functionality to check if a given PR URL is already in the Pull Requests checklist.  If it is, then it will not be posted again.
+- Implemented Sinatra
 
 #### Next:
-- Wire up classes to Sinatra
+- App should listen for new pull requests
