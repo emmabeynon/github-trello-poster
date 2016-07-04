@@ -5,11 +5,11 @@
 App that queries Github’s API to look at alphagov’s PRs, and when a link to a Trello card is mentioned in the PR, post a message to the team’s Trello board, with the reference of the PR.
 
 ## User Stories
-As a GOV.UK developer
+`As a GOV.UK developer
 
 So that I can make sure that the Trello card I am working on has the correct PR information
 
-I would like a link to relevant PRs to be automatically added to the Trello card.
+I would like a link to relevant PRs to be automatically added to the Trello card.`
 
 ## Log
 **22/04/16**
@@ -59,6 +59,10 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 **17/06/16**
 - TrelloPoster is now injected as a dependency in the GitHubPrScraper class
 - GitHubPrScraper iterates through prs_and_trello_card_ids and creates an instance of the TrelloPoster class to post the PR URL to the Trello card
+
+**04/07/16**
+- TrelloPoster and GitHubPrScraper classes refactored to reduce dependency on each other
+- Added functionality to check if a given PR URL is already in the Pull Requests checklist.  If it is, then it will not be posted again.
 
 #### Next:
 - Wire up classes to Sinatra

@@ -1,4 +1,5 @@
-require 'trello_poster'
+require_relative 'trello_poster'
+require 'octokit'
 
 class GitHubPrScraper
   attr_reader :commits, :login_user, :pull_requests, :trello_poster
