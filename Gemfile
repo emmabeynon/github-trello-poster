@@ -2,12 +2,9 @@ source 'https://rubygems.org'
 ruby '2.3.0'
 
 gem 'octokit', '~> 4.0'
-gem 'sinatra'
+gem 'sinatra', require: 'sinatra/base'
 gem 'ruby-trello'
-
-group :development, :test do
-  gem 'dotenv'
-end
+gem 'dotenv'
 
 group :test do
   gem 'byebug'
