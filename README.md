@@ -5,7 +5,8 @@
 App that queries Github’s API to look at alphagov’s PRs, and when a link to a Trello card is mentioned in the PR, post a message to the team’s Trello board, with the reference of the PR.
 
 ## User Stories
-```As a GOV.UK developer
+```
+As a GOV.UK developer
 
 So that I can make sure that the Trello card I am working on has the correct PR information
 
@@ -69,6 +70,11 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 **15/07/16**
 - Implemented a webhook that listens for changes to pull requests e.g. being opened, being closed, being edited, and creates an instance of the GitHubPrScraper class after receiving a payload from Github
 - This has required a reworking of the GitHubPrScraper class to deal with single pull requests, as opposed to the previous implementation that scraped all open pull requests from an organisation.  Consequently, the name of this class has been changed to GitHubPullRequest.
+- GitHub API tests have been removed as this is covered by the pr_poster feature tests
+
+**22/07/16**
+- Removed Trello API specs as this is covered by the unit tests and pr_poster feature tests
+- Not sure how to test posting to Trello (#post_github_pr_url), as the API is mocked
 
 #### Next:
 - Tidy up Trello tests
