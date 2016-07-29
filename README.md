@@ -76,5 +76,9 @@ I would like a link to relevant PRs to be automatically added to the Trello card
 - Removed Trello API specs as this is covered by the unit tests and pr_poster feature tests
 - Not sure how to test posting to Trello (#post_github_pr_url), as the API is mocked
 
+**29/07/16**
+- Pull request item checkbox on the Trello card 'Pull Requests' checklist is checked once a pull request has been merged.
+
 #### Next:
-- Tidy up Trello tests
+- Set up OAuth for Trello
+- Get app on PaaS

@@ -2,12 +2,13 @@ require_relative 'trello_poster'
 require 'octokit'
 
 class GitHubPullRequest
-  attr_reader :login_user, :trello_poster
+  attr_reader :login_user, :merge_status, :trello_poster
 
   ORGANISATION = ENV['GITHUB_ORGANISATION']
 
-  def initialize(repo, pull_request_id, trello_poster_klass=TrelloPoster)
+  def initialize(repo, pull_request_id, merge_status, trello_poster_klass=TrelloPoster)
     @login_user = authenticate
+    @merge_status = merge_status
     @trello_poster = trello_poster_klass
     fetch_pull_request_data(repo, pull_request_id)
   end
@@ -35,6 +36,6 @@ private
   end
 
   def post_to_trello(pr_url, trello_card_id)
-    trello_poster.new(pr_url, trello_card_id)
+    trello_poster.new(pr_url, trello_card_id, merge_status)
   end
 end

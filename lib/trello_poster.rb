@@ -1,15 +1,15 @@
 require 'trello'
 
 class TrelloPoster
-  attr_reader :pr_checklist, :pr_url, :trello_card, :trello_card_id
+  attr_reader :merge_status, :pr_checklist, :pr_url, :trello_card, :trello_card_id, :client
 
-  def initialize(pr_url, trello_card_id)
+  def initialize(pr_url, trello_card_id, merge_status)
     authenticate
     @pr_checklist = nil
     @pr_url = pr_url
     @trello_card_id = trello_card_id
     access_trello_card
-    post_github_pr_url
+    merge_status ? check_off_pull_request : post_github_pr_url
   end
 
   def access_trello_card
@@ -19,19 +19,27 @@ class TrelloPoster
 
   def check_for_pr_checklist(trello_card)
     trello_card.checklists.detect do |checklist|
-      @pr_checklist = checklist.id if is_a_pr_checklist?(checklist)
+      @pr_checklist = checklist if is_a_pr_checklist?(checklist)
     end
     create_pr_checklist if pr_checklist.nil?
   end
 
+private
+
   def post_github_pr_url
-    checklist = Trello::Checklist.find(pr_checklist)
-    unless checklist.check_items.detect { |item| item["name"] == pr_url }
-      checklist.add_item(pr_url, checked=false, position='bottom')
+    unless pr_checklist.check_items.detect { |item| item["name"] == pr_url }
+      pr_checklist.add_item(pr_url, checked=false, position='bottom')
     end
   end
 
-private
+  def check_off_pull_request
+    pr_checklist.items.each do |item|
+      if item.name == pr_url
+        pr_checklist.update_item_state(item.id, "complete")
+        pr_checklist.save
+      end
+    end
+  end
 
   def authenticate
     Trello.configure do |config|
@@ -41,11 +49,10 @@ private
   end
 
   def create_pr_checklist
-    @pr_checklist = Trello::Checklist.create(name: "Pull Requests", card_id: trello_card.id).id
+    @pr_checklist = Trello::Checklist.create(name: "Pull Requests", card_id: trello_card.id)
   end
 
   def is_a_pr_checklist?(checklist)
     checklist.name.downcase == "pull requests" || checklist.name.downcase == "prs"
   end
-
 end

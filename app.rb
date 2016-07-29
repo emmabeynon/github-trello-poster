@@ -10,7 +10,7 @@ class GDSGithubTrello < Sinatra::Base
     status 204
     body ''
     payload = JSON.parse(request.body.read)
-    GitHubPullRequest.new(payload["repository"]["id"],payload["number"])
+    GitHubPullRequest.new(payload["repository"]["id"],payload["number"],payload["pull_request"]["merged"])
   end
 
   # start the server if ruby file executed directly
