@@ -1,4 +1,6 @@
 language: ruby
 rvm:
  - 2.3.0
-script: bundle exec rspec spec
+script:
+  - gem specific_install https://github.com/jeremytregunna/ruby-trello.git
+  - bundle exec rspec spec
