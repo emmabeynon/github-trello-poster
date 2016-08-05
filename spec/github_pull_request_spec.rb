@@ -23,7 +23,7 @@ describe GitHubPullRequest do
     end
 
     it 'initializes with a merge status set' do
-      expect(github_pr.merge_status).to be false
+      expect(github_pr.merged).to be false
     end
   end
 

@@ -2,11 +2,11 @@ require_relative 'trello_poster'
 require 'octokit'
 
 class GitHubPullRequest
-  attr_reader :login_user, :merge_status, :trello_poster
+  attr_reader :login_user, :merged, :trello_poster
 
-  def initialize(repo, pull_request_id, merge_status, trello_poster)
+  def initialize(repo, pull_request_id, merged, trello_poster)
     @login_user = authenticate
-    @merge_status = merge_status
+    @merged = merged
     @trello_poster = trello_poster
     fetch_pull_request_data(repo, pull_request_id)
   end
@@ -25,15 +25,15 @@ private
   end
 
   def check_for_trello_card(pr_url, pr_body)
-    trello_card_url = pr_body.match(/https:\/\/trello.com\/c\/\w{8}/)
+    trello_card_url = pr_body.match(%r{https://trello.com/c/\w{8}})
     post_to_trello(pr_url, extract_trello_card_id(trello_card_url)) if trello_card_url
   end
 
   def extract_trello_card_id(trello_card_url)
-    trello_card_url[0].gsub(/https:\/\/trello.com\/c\//, '')
+    trello_card_url[0].gsub(%r{https://trello.com/c/}, '')
   end
 
   def post_to_trello(pr_url, trello_card_id)
-    trello_poster.post!(pr_url, trello_card_id, merge_status)
+    trello_poster.post!(pr_url, trello_card_id, merged)
   end
 end
