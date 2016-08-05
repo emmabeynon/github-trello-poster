@@ -9,7 +9,7 @@ class GDSGithubTrello < Sinatra::Base
   post '/payload' do
     status 204
     body ''
-    trello_poster = TrelloPoster.new(params[:foo]
+    trello_poster = TrelloPoster.new(ENV['TRELLO_PUBLIC_KEY'], ENV['TRELLO_MEMBER_TOKEN'])
     payload = JSON.parse(request.body.read)
     GitHubPullRequest.new(payload["repository"]["id"],payload["number"],payload["pull_request"]["merged"], trello_poster)
   end

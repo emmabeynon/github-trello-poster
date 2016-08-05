@@ -4,8 +4,6 @@ require 'octokit'
 class GitHubPullRequest
   attr_reader :login_user, :merge_status, :trello_poster
 
-  ORGANISATION = ENV['GITHUB_ORGANISATION']
-
   def initialize(repo, pull_request_id, merge_status, trello_poster)
     @login_user = authenticate
     @merge_status = merge_status

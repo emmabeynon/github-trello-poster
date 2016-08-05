@@ -8,7 +8,6 @@ class TrelloPoster
   end
 
   def post!(pr_url, trello_card_id, merge_status)
-    #authenticate
     @pr_checklist = nil
     @pr_url = pr_url
     @trello_card_id = trello_card_id
@@ -46,15 +45,8 @@ private
     end
   end
 
-  def authenticate
-    Trello.configure do |config|
-      config.developer_public_key = ENV['TRELLO_PUBLIC_KEY']
-      config.member_token = ENV['TRELLO_MEMBER_TOKEN']
-    end
-  end
-
   def create_pr_checklist
-    @pr_checklist = Trello::Checklist.create(name: "Pull Requests", card_id: trello_card.id)
+    @pr_checklist = client.create(:checklist, "name" => "Pull Requests", "idCard" => trello_card.id)
   end
 
   def is_a_pr_checklist?(checklist)
