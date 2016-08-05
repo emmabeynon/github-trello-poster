@@ -3,17 +3,22 @@ require 'trello'
 class TrelloPoster
   attr_reader :merge_status, :pr_checklist, :pr_url, :trello_card, :trello_card_id, :client
 
-  def initialize(pr_url, trello_card_id, merge_status)
-    authenticate
+  def initialize(public_key, token)
+    @client = Trello::Client.new( :developer_public_key => public_key, :member_token => token)
+  end
+
+  def post!(pr_url, trello_card_id, merge_status)
+    #authenticate
     @pr_checklist = nil
     @pr_url = pr_url
     @trello_card_id = trello_card_id
     access_trello_card
-    merge_status ? check_off_pull_request : post_github_pr_url
+    post_github_pr_url
+    check_off_pull_request if merge_status
   end
 
   def access_trello_card
-    @trello_card = Trello::Card.find(trello_card_id)
+    @trello_card = @client.find(:card, trello_card_id)
     check_for_pr_checklist(trello_card)
   end
 

@@ -6,10 +6,10 @@ class GitHubPullRequest
 
   ORGANISATION = ENV['GITHUB_ORGANISATION']
 
-  def initialize(repo, pull_request_id, merge_status, trello_poster_klass=TrelloPoster)
+  def initialize(repo, pull_request_id, merge_status, trello_poster)
     @login_user = authenticate
     @merge_status = merge_status
-    @trello_poster = trello_poster_klass
+    @trello_poster = trello_poster
     fetch_pull_request_data(repo, pull_request_id)
   end
 
@@ -36,6 +36,6 @@ private
   end
 
   def post_to_trello(pr_url, trello_card_id)
-    trello_poster.new(pr_url, trello_card_id, merge_status)
+    trello_poster.post!(pr_url, trello_card_id, merge_status)
   end
 end
