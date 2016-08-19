@@ -1,5 +1,5 @@
 # GitHub-Trello-Poster
-[![Build Status](https://travis-ci.org/emmabeynon/gds-github-trello.svg?branch=master)](https://travis-ci.org/emmabeynon/gds-github-trello)
+[![Build Status](https://travis-ci.org/emmabeynon/github-trello-poster.svg?branch=master)](https://travis-ci.org/emmabeynon/github-trello-poster)
 
 This app uses GitHub webhooks to be notified when a Pull Request is opened or changed on GitHub.  When it finds a link to a Trello card in the Pull Request, it posts a link to that Pull Request to a checklist on the card it finds.  When a Pull Request is merged, the app checks the Pull Request off the checklist.
 
@@ -30,7 +30,7 @@ This app is built using Ruby and Sinatra.  It makes use of GitHub webhooks to re
 5. Get your [Trello user token](https://developers.trello.com/authorize) and assign to the `TRELLO_MEMBER_TOKEN` environment variable. You may also find this token using [ruby-trello's](https://github.com/jeremytregunna/ruby-trello) helpful methods.
 6. To set up a Webook:
   a. Navigate to your chosen organisation or repository's settings on GitHub. Select 'Webhooks' and click 'Add webhook'  
-  b. Paste your payload URL (i.e. 'https://[inster-your-site-here]/payload') in the Payload URL box.
+  b. Paste your payload URL (i.e. 'https://[insert-your-site-here]/payload') in the Payload URL box.
   c. Select content type as application/json.
   d. Select 'Let me select individual events' and check the 'Pull requests' box.
   e. Leave the Active checkbox checked, and save.
@@ -112,6 +112,9 @@ Note the feature tests.
 - A post! method has been extracted out of TrelloPoster's initalize method to handle all posting related methods.  This is called on the TrelloPoster instance from within the GitHubPullRequest instance.  Initialize now only handles authentication.
 - Minor refactoring has been carried out on the GitHubPullRequest class to make regex conditions clearer, and renamed merge_status to merged.
 - After discussing setting up OAuth for Trello with @alext, we decided that the current basic authentication is sufficient, so I will not be proceeding with setting up OAuth.
+
+**19/08/16**
+- I'm looking at modifying this app to be able to post Pivotal Tracker as an alternative to Trello.  This can be found [here](https://github.com/emmabeynon/github-pivotal-poster)
 
 #### Next:
 - Deploy app to PaaS
