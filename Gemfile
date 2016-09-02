@@ -5,6 +5,7 @@ gem 'octokit', '~> 4.0'
 gem 'sinatra', require: 'sinatra/base'
 gem 'ruby-trello', :git => "https://github.com/jeremytregunna/ruby-trello.git", :branch => "master"
 gem 'dotenv'
+gem 'puma'
 
 group :test do
   gem 'byebug'
