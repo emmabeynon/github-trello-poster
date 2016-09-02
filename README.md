@@ -28,7 +28,7 @@ This app is built using Ruby and Sinatra.  It makes use of GitHub webhooks to re
 3. Get your [GitHub access token](https://help.github.com/articles/creating-an-access-token-for-command-line-use/) and assign to the `GITHUB_ACCESS_TOKEN` environment variable.
 4. Get your [Trello developer API key](https://trello.com/app-key) and assign to the `TRELLO_PUBLIC_KEY` environment variable. You may also find this key using [ruby-trello's](https://github.com/jeremytregunna/ruby-trello) helpful methods.
 5. Get your [Trello user token](https://developers.trello.com/authorize) and assign to the `TRELLO_MEMBER_TOKEN` environment variable. You may also find this token using [ruby-trello's](https://github.com/jeremytregunna/ruby-trello) helpful methods.
-6. To set up a Webook:
+6. To set up a Webhook:
   a. Navigate to your chosen organisation or repository's settings on GitHub. Select 'Webhooks' and click 'Add webhook'  
   b. Paste your payload URL (i.e. 'https://[insert-your-site-here]/payload') in the Payload URL box.
   c. Select content type as application/json.

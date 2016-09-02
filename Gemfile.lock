@@ -42,6 +42,7 @@ GEM
     oauth (0.5.1)
     octokit (4.3.0)
       sawyer (~> 0.7.0, >= 0.5.3)
+    puma (3.6.0)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -90,6 +91,7 @@ DEPENDENCIES
   byebug
   dotenv
   octokit (~> 4.0)
+  puma
   rspec
   rspec-sinatra
   ruby-trello!
