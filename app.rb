@@ -4,7 +4,7 @@ Dotenv.load
 require './lib/github_pull_request'
 require 'json'
 
-class GDSGithubTrello < Sinatra::Base
+class GithubTrelloPoster < Sinatra::Base
 
   post '/payload' do
     status 204

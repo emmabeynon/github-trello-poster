@@ -1,0 +1,5 @@
+---
+applications:
+- name: github-trello-poster
+  memory: 256M
+  buildpack: ruby_buildpack
