@@ -1,17 +1,5 @@
 language: ruby
 rvm:
-- 2.3.0
+ - 2.3.0
 script:
-- bundle exec rspec spec
-deploy:
-  edge: true
-  provider: cloudfoundry
-  api: https://api.cloud.service.gov.uk
-  username: emma.beynon@digital.cabinet-office.gov.uk
-  password:
-    secure: BoaqTTDVZDlKHbx78rMZTouD117tKFyf/uQhe9e5o38AW8H1T2d+E66Ri6yiKY7EAq/OUfsDCgSLnLeYV9pv3aXj67pk1kVYoKfUwEYzYoM3K7hyWVPVlAuXQV4Aq5l+K+j1kPKZpx1dFok33hN2paB41B1scKp2Ank8T1W4Vf6fqeBQ78r1VajfHl7OI3dtRp6wXiBgvSJlQvDNxYsQoOazyUdkMTNZnRCBhN1HmfkEXxhfQbezXvOlKqGBD1KMxyBfYX9iTNajp+6qNz2ly/wY+d5eT3M8LgO2NWNbmnzThr3iXqesRnLwus4AnpQgIocaGy/IrKZQdgaSTr2NGKZHv4SCDJT3nUAx4qcRCmfEEQFUwuflU+02wteXTHXiS2Q/empCxoCe104mpSQcgRg4YYmmrErAr25LHQh67+Nhf1WFP2aZ/r/bFqogYBbfwhftj3Hpz60Frv8ylR6ZOR8ATloDikEVXDu+NZp21M2z/8BhUKth/RlglA04ukhcqrUUCNeoG3/eW7m3Sluk29TSBjmdgxP09ygrwNsbJC0e1bnZKFZ2KHqu6oxVitYOo5o2yTmlnHO8ZbQw9oivKDwkv+SHPXIgyr1pbAUghbXAG6ejKyU3t6ggwqJQ1fPbG5P/InF8y6HSdxm2mZKdgtFsIFscC+wxJLa/hdxEo2A=
-  organization: gds-learning-development-projects
-  space: sandbox
-  on:
-    repo: emmabeynon/github-trello-poster
-    branch: master
+  - bundle exec rspec spec
