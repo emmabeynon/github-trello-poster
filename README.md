@@ -29,16 +29,16 @@ This app is built using Ruby and Sinatra.  It makes use of GitHub webhooks to re
 4. Get your [Trello developer API key](https://trello.com/app-key) and assign to the `TRELLO_PUBLIC_KEY` environment variable. You may also find this key using [ruby-trello's](https://github.com/jeremytregunna/ruby-trello) helpful methods.
 5. Get your [Trello user token](https://developers.trello.com/authorize) and assign to the `TRELLO_MEMBER_TOKEN` environment variable. You may also find this token using [ruby-trello's](https://github.com/jeremytregunna/ruby-trello) helpful methods.
 6. To set up a Webhook:
-  a. Navigate to your chosen organisation or repository's settings on GitHub. Select 'Webhooks' and click 'Add webhook'  
-  b. Paste your payload URL (i.e. 'https://[insert-your-site-here]/payload') in the Payload URL box.
-  c. Select content type as application/json.
-  d. Select 'Let me select individual events' and check the 'Pull requests' box.
-  e. Leave the Active checkbox checked, and save.
-7. Deploy to your preferred platform, or to run locally, run `ruby app.rb`.  If running locally, I would recommend using ngrok
+    a. Navigate to your chosen organisation or repository's settings on GitHub. Select 'Webhooks' and click 'Add webhook'  
+    b. Paste your payload URL (i.e. 'https://[insert-your-site-here]/payload') in the Payload URL box.
+    c. Select content type as application/json.
+    d. Select 'Let me select individual events' and check the 'Pull requests' box.
+    e. Leave the Active checkbox checked, and save.
+7. Deploy to your preferred platform, or to run locally, run `ruby app.rb`.  If running locally, I would recommend using ngrok.
 
 #### Running the test suite
 Run `bundle exec rspec`.
-Note the feature tests.
+Note the feature tests require real-world set up of Trello cards and GitHub repos, and you will need to amend the tests accordingly.
 
 ## Log
 **22/04/16**
@@ -116,5 +116,11 @@ Note the feature tests.
 **19/08/16**
 - I'm looking at modifying this app to be able to post Pivotal Tracker as an alternative to Trello.  This can be found [here](https://github.com/emmabeynon/github-pivotal-poster)
 
+**05/09/16**
+- The app has been deployed to the PaaS!
+
+**23/09/16**
+- Sinatra logging as been added.
+
 #### Next:
-- Deploy app to PaaS
+- Add tests for HTTP requests.
