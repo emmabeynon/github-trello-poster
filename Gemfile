@@ -3,7 +3,7 @@ ruby '2.3.0'
 
 gem 'octokit', '~> 4.0'
 gem 'sinatra', require: 'sinatra/base'
-gem 'ruby-trello', :git => "https://github.com/jeremytregunna/ruby-trello.git", :branch => "master"
+gem 'ruby-trello', '~> 1.5.1'
 gem 'dotenv'
 gem 'puma'
 
