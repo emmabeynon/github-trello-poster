@@ -1,6 +1,7 @@
 require 'github_pull_request'
 
 describe 'Pull Request Poster' do
+  WebMock.allow_net_connect!
   let(:trello_poster) { TrelloPoster.new(ENV['TRELLO_PUBLIC_KEY'], ENV['TRELLO_MEMBER_TOKEN']) }
   subject(:github_pr) { GitHubPullRequest.new(60356369, 1, false, trello_poster) }
   let(:pull_request) { github_pr.login_user.pull_request(60356369, 1) }
@@ -17,18 +18,23 @@ describe 'Pull Request Poster' do
   end
 
   it 'posts a pull request URL to the Trello card referenced in its commit message' do
+    TrelloPoster.new(ENV['TRELLO_PUBLIC_KEY'], ENV['TRELLO_MEMBER_TOKEN'])
     expect(@checklist.check_items.first['name']).to eq(pull_request.html_url)
   end
 
-  it 'does not post a pull request URL to a Trello card if it already exists in the card\'s PR checklist' do
-    GitHubPullRequest.new(60356369, 1, false, trello_poster)
-    expect(@checklist.check_items.count).to eq(1)
+  context "when a pull request URL is already in a card's checklist" do
+    it 'does not post a pull request URL to the Trello card' do
+      GitHubPullRequest.new(60356369, 1, false, trello_poster)
+      expect(@checklist.check_items.count).to eq(1)
+    end
   end
 
-  it 'checks a Pull Request checkbox if it has been merged' do
-    GitHubPullRequest.new(60356369, 1, true, trello_poster)
-    updated_checklist = trello_card.checklists.first
-    expect(updated_checklist.check_items.first['state']).to eq('complete')
+  context "when a pull request has been merged" do
+    it "checks the Pull Request off the checklist" do
+      GitHubPullRequest.new(60356369, 1, true, trello_poster)
+      updated_checklist = trello_card.checklists.first
+      expect(updated_checklist.check_items.first['state']).to eq('complete')
+    end
   end
 
   it 'checks a Pull Request checkbox if the PR has been updated with a Trello URL after it was merged' do
