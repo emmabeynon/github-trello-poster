@@ -21,6 +21,11 @@ class GithubTrelloPoster < Sinatra::Base
     env["rack.errors"] =  error_logger
   }
 
+  get '/' do
+    status 200
+    body "#{self.class.name}: This is a Ruby app that can be set up as a GitHub webhook to add links to Trello"
+  end
+
   post '/payload' do
     status 204
     body ''
