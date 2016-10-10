@@ -30,4 +30,12 @@ describe 'Pull Request Poster' do
     updated_checklist = trello_card.checklists.first
     expect(updated_checklist.check_items.first['state']).to eq('complete')
   end
+
+  it 'checks a Pull Request checkbox if the PR has been updated with a Trello URL after it was merged' do
+    github_pull_request = GitHubPullRequest.new(60356290, 3, true, trello_poster)
+    merged_pull_request = github_pull_request.login_user.pull_request(60356290, 1)
+    trello_card = github_pull_request.trello_poster.client.find(:card, 'Bjdv5qRr')
+    checklist = trello_card.checklists.first
+    expect(checklist.check_items.first['state']).to eq('complete')
+  end
 end
