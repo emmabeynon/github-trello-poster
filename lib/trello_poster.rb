@@ -37,6 +37,7 @@ private
   end
 
   def check_off_pull_request
+    check_for_pr_checklist(trello_card)
     pr_checklist.items.each do |item|
       if item.name == pr_url
         pr_checklist.update_item_state(item.id, "complete")
