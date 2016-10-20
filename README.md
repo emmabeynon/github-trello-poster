@@ -127,3 +127,6 @@ Note the feature tests require real-world set up of Trello cards and GitHub repo
 **23/09/16**
 - Sinatra logging as been added.
 - Added test for HTTP request.
+
+**20/10/16**
+- Added index page with directions to the app's GitHub repo.

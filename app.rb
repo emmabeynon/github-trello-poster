@@ -10,7 +10,12 @@ class GithubTrelloPoster < Sinatra::Base
   configure :production, :development do
     enable :logging
   end
-  
+
+  get '/' do
+    status 200
+    erb :index
+  end
+
   post '/payload' do
     status 204
     body ''
