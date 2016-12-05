@@ -2,6 +2,15 @@ require 'github_pull_request'
 require 'ostruct'
 
 describe GitHubPullRequest do
+  let(:github_pull_request_params) do
+    {
+      repo: 60356369,
+      pull_request_id: 1,
+      merged: false,
+      trello_poster: trello_poster
+    }
+  end
+
   let(:trello_poster) { double(TrelloPoster) }
   let(:repo_pull_request) do
     OpenStruct.new({
@@ -10,7 +19,7 @@ describe GitHubPullRequest do
     })
   end
   let(:octokit) { double Octokit::Client, login: 'username', pull_request: repo_pull_request }
-  subject(:github_pr) { GitHubPullRequest.new(60356369, 1, false, trello_poster) }
+  subject(:github_pr) { GitHubPullRequest.new(github_pull_request_params) }
 
   before(:each) do
     allow(Octokit::Client).to receive(:new).and_return(octokit)
@@ -30,7 +39,7 @@ describe GitHubPullRequest do
   describe '#fetch_pull_request_data' do
     it 'retrieves HTML URL and body data for the given URL and passes to the check_for_trello_card method, leading to GitHubPullRequest being instantiated' do
       expect(trello_poster).to receive(:post!).with(repo_pull_request[:html_url], '6wQLN2C7', false)
-      GitHubPullRequest.new(60356369, 1, false, trello_poster)
+      GitHubPullRequest.new(github_pull_request_params)
     end
   end
 end

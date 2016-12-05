@@ -4,7 +4,7 @@ require 'octokit'
 class GitHubPullRequest
   attr_reader :login_user, :merged, :trello_poster
 
-  def initialize(repo, pull_request_id, merged, trello_poster)
+  def initialize(repo:, pull_request_id:, merged:, trello_poster:)
     @login_user = authenticate
     @merged = merged
     @trello_poster = trello_poster
@@ -21,7 +21,7 @@ class GitHubPullRequest
 private
 
   def authenticate
-    @login_user = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
+    @authenticate ||= Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
   end
 
   def check_for_trello_card(pr_url, pr_body)
