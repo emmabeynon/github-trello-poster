@@ -9,7 +9,7 @@ require 'octokit'
 require 'byebug'
 require 'net/http'
 require 'net/https'
-
+require 'rack/test'
 require 'webmock/rspec'
 WebMock.disable_net_connect!(allow_localhost: true)
 
