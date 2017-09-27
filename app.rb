@@ -17,16 +17,26 @@ class GithubTrelloPoster < Sinatra::Base
   end
 
   post '/payload' do
-    status 204
-    body ''
-    trello_poster = TrelloPoster.new(ENV['TRELLO_PUBLIC_KEY'], ENV['TRELLO_MEMBER_TOKEN'])
     payload = JSON.parse(request.body.read)
+    if required_payload_fields(payload).present?
+      [200, '']
+    else
+      return [400, 'Required payload fields missing']
+    end
+    trello_poster = TrelloPoster.new(ENV['TRELLO_PUBLIC_KEY'], ENV['TRELLO_MEMBER_TOKEN'])
     GitHubPullRequest.new(
       merged: payload["pull_request"]["merged"],
-      pull_request_id: payload["number"]
+      pull_request_id: payload["number"],
       repo_id: payload["repository"]["id"],
       trello_poster: trello_poster
     )
+  end
+
+  def required_payload_fields(payload)
+    return false if payload.nil?
+    !payload.dig("pull_request", "merged").nil? &&
+    payload["number"].present? &&
+    payload.dig("repository", "id").present?
   end
 
   # start the server if ruby file executed directly

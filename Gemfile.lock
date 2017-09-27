@@ -37,6 +37,8 @@ GEM
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
     rest-client (1.8.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
@@ -94,6 +96,7 @@ DEPENDENCIES
   dotenv
   octokit (~> 4.0)
   puma
+  rack-test
   rspec
   rspec-sinatra
   ruby-trello (~> 1.5.1)
