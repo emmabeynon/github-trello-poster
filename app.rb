@@ -21,7 +21,12 @@ class GithubTrelloPoster < Sinatra::Base
     body ''
     trello_poster = TrelloPoster.new(ENV['TRELLO_PUBLIC_KEY'], ENV['TRELLO_MEMBER_TOKEN'])
     payload = JSON.parse(request.body.read)
-    GitHubPullRequest.new(payload["repository"]["id"],payload["number"],payload["pull_request"]["merged"], trello_poster)
+    GitHubPullRequest.new(
+      merged: payload["pull_request"]["merged"],
+      pull_request_id: payload["number"]
+      repo_id: payload["repository"]["id"],
+      trello_poster: trello_poster
+    )
   end
 
   # start the server if ruby file executed directly

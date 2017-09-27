@@ -2,31 +2,40 @@ require_relative 'trello_poster'
 require 'octokit'
 
 class GitHubPullRequest
-  attr_reader :login_user, :merged, :trello_poster
+  attr_reader :pull_request_id, :repo_id
 
-  def initialize(repo, pull_request_id, merged, trello_poster)
+  def initialize(merged: false, pull_request_id:, repo_id:, trello_poster:)
     @login_user = authenticate
     @merged = merged
+    @pull_request_id = pull_request_id
+    @repo_id = repo_id
     @trello_poster = trello_poster
-    fetch_pull_request_data(repo, pull_request_id)
   end
 
-  def fetch_pull_request_data(repo, pull_request_id)
-    pull_request = login_user.pull_request(repo, pull_request_id)
-    unless pull_request.body.empty?
-      check_for_trello_card(pull_request.html_url, pull_request.body)
-    end
+  def call
+    pull_request = fetch_pull_request_data(repo_id, pull_request_id)
+    trello_card_id = check_for_trello_card(pull_request)
+    return unless trello_card_id.present?
+    post_to_trello(pull_request.html_url, trello_card_id)
   end
 
 private
 
-  def authenticate
-    @login_user = Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
+  attr_reader :login_user, :merged, :trello_poster
+
+  def fetch_pull_request_data(repo_id, pull_request_id)
+    login_user.pull_request(repo_id, pull_request_id)
   end
 
-  def check_for_trello_card(pr_url, pr_body)
-    trello_card_url = pr_body.match(%r{https://trello.com/c/\w{8}})
-    post_to_trello(pr_url, extract_trello_card_id(trello_card_url)) if trello_card_url
+  def authenticate
+    @authenticate ||=
+      Octokit::Client.new(access_token: ENV['GITHUB_ACCESS_TOKEN'])
+  end
+
+  def check_for_trello_card(pull_request)
+    return if pull_request.body.empty?
+    trello_card_url = pull_request.body.match(%r{https://trello.com/c/\w{8}})
+    extract_trello_card_id(trello_card_url) unless trello_card_url.nil?
   end
 
   def extract_trello_card_id(trello_card_url)
