@@ -12,4 +12,5 @@ group :test do
   gem 'rspec'
   gem 'rspec-sinatra'
   gem 'webmock'
+  gem 'rack-test'
 end
