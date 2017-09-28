@@ -29,7 +29,7 @@ class GithubTrelloPoster < Sinatra::Base
       pull_request_id: payload["number"],
       repo_id: payload["repository"]["id"],
       trello_poster: trello_poster
-    )
+    ).call
   end
 
   def required_payload_fields(payload)
