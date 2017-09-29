@@ -1,7 +1,7 @@
 # GitHub-Trello-Poster
 [![Build Status](https://travis-ci.org/emmabeynon/github-trello-poster.svg?branch=master)](https://travis-ci.org/emmabeynon/github-trello-poster)
 
-This app uses GitHub webhooks to be notified when a Pull Request is opened or changed on GitHub.  When it finds a link to a Trello card in the Pull Request, it posts a link to that Pull Request to a checklist on the card it finds.  When a Pull Request is merged, the app checks the Pull Request off the checklist.
+This app uses GitHub webhooks to be notified when a Pull Request is opened or changed on GitHub.  When it finds a link to a Trello card in the Pull Request, it posts a link to that Pull Request to a checklist on the card it finds.  When a Pull Request is merged or closed, the app checks the Pull Request off the checklist, even in cases where a user may have modified the item in the checklist.
 
 ## User Stories
 ```
@@ -130,3 +130,8 @@ Note the feature tests require real-world set up of Trello cards and GitHub repo
 
 **20/10/16**
 - Added index page with directions to the app's GitHub repo.
+
+**29/09/17**
+- Refactored `GitHubPullRequest` & `TrelloPoster` classes
+- No longer posts a pull request URL more than once in cases where a user has modified a checklist item containing a pull request URL
+- Now checks off pull request URLs when pull requests are closed as well as merged
