@@ -23,7 +23,7 @@ class GithubTrelloPoster < Sinatra::Base
     else
       return [400, 'Required payload fields missing']
     end
-    trello_poster = TrelloPoster.new(ENV['TRELLO_PUBLIC_KEY'], ENV['TRELLO_MEMBER_TOKEN'])
+    trello_poster = TrelloPoster.new
     GitHubPullRequest.new(
       merged: payload["pull_request"]["merged"],
       pull_request_id: payload["number"],
