@@ -24,7 +24,7 @@ RSpec.describe GithubTrelloPoster do
     let(:trello_poster) { TrelloPoster }
     let(:github_pull_request_params) do
       {
-        merged: true,
+        closed: false,
         pull_request_id: 1,
         repo_id: 1234,
         trello_poster: trello_poster
@@ -36,9 +36,7 @@ RSpec.describe GithubTrelloPoster do
     context "valid GitHub pull request payload is received" do
       let(:payload) do
         {
-          "pull_request": {
-            "merged": true
-          },
+          "action": "open",
           "number": 1,
           "repository": {
             "id": 1234
