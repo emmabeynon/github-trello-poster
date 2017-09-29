@@ -30,7 +30,7 @@ describe TrelloPoster do
         :check_items=>[
           { "state"=>"incomplete",
             "id"=>"1",
-            "name"=>"https://github.com/gov-test-org/project-a/pull/1"
+            "name"=>"https://github.com/gov-test-org/project-a/pull/1 - Add the UI to frontend"
           }
         ],
         :card_id=>"1",
@@ -87,6 +87,14 @@ describe TrelloPoster do
 
         trello_poster.post!(
           'https://github.com/gov-test-org/project-a/pull/2', "abcd1234", false
+        )
+      end
+
+      it "should not post the GitHub PR URL more than once" do
+        expect(pull_request_checklist).not_to receive(:add_item)
+
+        trello_poster.post!(
+          'https://github.com/gov-test-org/project-a/pull/1', "abcd1234", false
         )
       end
     end

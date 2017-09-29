@@ -1,5 +1,4 @@
 require 'trello'
-require 'byebug'
 
 class TrelloPoster
   def initialize
@@ -32,18 +31,16 @@ private
   end
 
   def post_github_pr_url(pr_url, pr_checklist)
-    unless checklist_has_pr_url?(pr_checklist, pr_url)
-      pr_checklist.add_item(pr_url, checked=false, position='bottom')
-    end
+    item = pr_url_on_checklist(pr_checklist, pr_url)
+    pr_checklist.add_item(pr_url, checked=false, position='bottom') if item.nil?
   end
 
   def check_off_pull_request(trello_card, pr_url)
     checklist = check_for_pr_checklist(trello_card)
-    checklist.check_items.each do |item|
-      if item["name"] == pr_url
-        checklist.update_item_state(item["id"], "complete")
-        checklist.save
-      end
+    item = pr_url_on_checklist(checklist, pr_url)
+    unless item.nil?
+      checklist.update_item_state(item["id"], "complete")
+      checklist.save
     end
   end
 
@@ -59,7 +56,7 @@ private
       checklist.name.downcase == "prs"
   end
 
-  def checklist_has_pr_url?(checklist, pr_url)
-    checklist.check_items.detect { |item| item["name"] == pr_url }
+  def pr_url_on_checklist(checklist, pr_url)
+    checklist.check_items.find { |item| item["name"] =~ /#{Regexp.quote(pr_url)}/i }
   end
 end
