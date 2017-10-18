@@ -4,9 +4,9 @@ require 'octokit'
 class GitHubPullRequest
   attr_reader :pull_request_id, :repo_id
 
-  def initialize(closed:, pull_request_id:, repo_id:, trello_poster:)
+  def initialize(merged: false, pull_request_id:, repo_id:, trello_poster:)
     @login_user = authenticate
-    @closed = closed
+    @merged = merged
     @pull_request_id = pull_request_id
     @repo_id = repo_id
     @trello_poster = trello_poster
@@ -21,7 +21,7 @@ class GitHubPullRequest
 
 private
 
-  attr_reader :login_user, :closed, :trello_poster
+  attr_reader :login_user, :merged, :trello_poster
 
   def fetch_pull_request_data(repo_id, pull_request_id)
     login_user.pull_request(repo_id, pull_request_id)
@@ -43,6 +43,6 @@ private
   end
 
   def post_to_trello(pr_url, trello_card_id)
-    trello_poster.post!(pr_url, trello_card_id, closed)
+    trello_poster.post!(pr_url, trello_card_id, merged)
   end
 end
