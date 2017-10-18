@@ -25,7 +25,7 @@ class GithubTrelloPoster < Sinatra::Base
     end
     trello_poster = TrelloPoster.new
     GitHubPullRequest.new(
-      closed: payload["action"] == "closed",
+      merged: payload["pull_request"]["merged"],
       pull_request_id: payload["number"],
       repo_id: payload["repository"]["id"],
       trello_poster: trello_poster
@@ -34,7 +34,7 @@ class GithubTrelloPoster < Sinatra::Base
 
   def required_payload_fields(payload)
     return false if payload.nil?
-    payload["action"].present? &&
+    !payload.dig("pull_request", "merged").nil? &&
     payload["number"].present? &&
     payload.dig("repository", "id").present?
   end
