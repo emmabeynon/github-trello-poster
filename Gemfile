@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.3.3'
+ruby File.read(".ruby-version").strip
 
 gem 'octokit', '~> 4.0'
 gem 'sinatra', require: 'sinatra/base'
