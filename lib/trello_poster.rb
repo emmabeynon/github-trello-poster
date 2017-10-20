@@ -8,11 +8,11 @@ class TrelloPoster
     )
   end
 
-  def post!(pr_url, trello_card_id, merge_status)
+  def post!(pr_url, trello_card_id, pr_closed)
     trello_card = access_trello_card(trello_card_id)
     pr_checklist = check_for_pr_checklist(trello_card)
     post_github_pr_url(pr_url, pr_checklist)
-    check_off_pull_request(trello_card, pr_url) if merge_status
+    check_off_pull_request(trello_card, pr_url) if pr_closed
   end
 
 private

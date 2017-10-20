@@ -21,7 +21,7 @@ describe GitHubPullRequest do
     {
       repo_id: 60356369,
       pull_request_id: 1,
-      merged: false,
+      closed: false,
       trello_poster: trello_poster
     }
   end
