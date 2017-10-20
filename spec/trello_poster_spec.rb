@@ -99,7 +99,7 @@ describe TrelloPoster do
       end
     end
 
-    context "and merge status is true" do
+    context "and pr_closed is true" do
       before do
         allow(pull_request_checklist).to receive(:update_item_state)
         allow(pull_request_checklist).to receive(:save)
@@ -114,7 +114,7 @@ describe TrelloPoster do
       end
     end
 
-    context "and merge status is false" do
+    context "and pr_closed is false" do
       it "should not check off the pull request on the checklist" do
         expect(pull_request_checklist).not_to receive(:update_item_state)
 
