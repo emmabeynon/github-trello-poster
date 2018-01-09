@@ -3,3 +3,12 @@ before_install:
   - gem update --system
 script:
   - bundle exec rspec spec
+deploy:
+  edge: true
+  provider: cloudfoundry
+  username: "$PAAS_USERNAME"
+  api: https://api.cloud.service.gov.uk
+  organization: gds-learning-development-projects
+  space: sandbox
+  password:
+    secure: gC7FY4qvk/aNqb+FOsK40DFLCRwzYC1moJFugNXq+qCzDUsfauiZ3mkaYsIeF0OvmAtyjrbdrwwPFdI4qE0og3+bpyg8iZmDc4zCnZzJfrYBAXb4H03WxjzYcRS9XwehD6766zXBEfcia/z5sBxyHei+64VV88vPxrYzEQG5k1Fp1XNN8fYpCPMuTaxB4k9e+YIhfcUNbtPm6B9WCx+t35Lg9LKk5wvjT3EMTCy5K4zRmt/b+jsPciJCAlhyHQq/oaVwpvWLs3Qr8ZcUvuv2OVVW/X9qk86HAzsF0dK42vSRo+aiplvL/maVSoaf+uRkHCv87eGtzWW+0N33WVTV04rSI776WprYWdt6b/aROlaSGXIxos5g0gtn67NTj7xzwTBz/rZl1bWDjwwYQ+S00YLUnLhte8GCJytoUAH2xU0RWiB4WkyohJr6MnXmVMoNq2Ml/jY7HTEB7eux/SEX+bTyv/GA2GNxwvcgiKNV77E28N88Uc+/y0JUQ+aRU/UDY953ldi5cA1oqMmTb/Lue31vxFCSFdufffh67eY794jqoOdP1WTLkyyG41PmnX+H3lO8lC/5O2IRUVN2dyFISVNT9VLRNz7XTxAuad33BNI/zk3kEmDLPoIJaipgBZG3VWfllIQZVNn+SWbEFyO7zEcYF/Be3mL2ExmUfwnUql8=
