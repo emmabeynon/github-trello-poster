@@ -135,3 +135,7 @@ Note the feature tests require real-world set up of Trello cards and GitHub repo
 - Refactored `GitHubPullRequest` & `TrelloPoster` classes
 - No longer posts a pull request URL more than once in cases where a user has modified a checklist item containing a pull request URL
 - Now checks off pull request URLs when pull requests are closed as well as merged
+
+**19/01/17**
+- Upgraded Ruby to 2.5.0
+- Set up Travis to deploy to PaaS after merging to master
