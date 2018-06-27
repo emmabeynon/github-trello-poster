@@ -18,6 +18,7 @@ class GithubTrelloPoster < Sinatra::Base
 
   post '/payload' do
     payload = JSON.parse(request.body.read)
+    return [200, 'Not processing payload'] if review_requested?(payload)
     if required_payload_fields(payload).present?
       [200, '']
     else
@@ -42,4 +43,7 @@ class GithubTrelloPoster < Sinatra::Base
   # start the server if ruby file executed directly
   run! if app_file == $0
 
+  def review_requested?(payload)
+    payload["action"] == "review_requested"
+  end
 end

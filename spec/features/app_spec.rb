@@ -32,30 +32,29 @@ RSpec.describe GithubTrelloPoster do
     end
 
     let(:github_pull_request) { instance_double("GitHubPullRequest") }
+    let(:payload) do
+      {
+        "action": "open",
+        "number": 1,
+        "repository": {
+          "id": 1234
+        }
+      }.to_json
+    end
 
     context "valid GitHub pull request payload is received" do
-      let(:payload) do
-        {
-          "action": "open",
-          "number": 1,
-          "repository": {
-            "id": 1234
-          }
-        }
-      end
 
       it "successfully instantiates GitHubPullRequest" do
         expect(GitHubPullRequest).to receive(:new)
           .with(github_pull_request_params)
         expect(github_pull_request).to receive(:call)
 
-        post '/payload', payload.to_json,
-          { 'CONTENT_TYPE' => 'application/json'}
+        post '/payload', payload, { 'CONTENT_TYPE' => 'application/json' }
       end
 
       it "returns a 200 status" do
-        response = post '/payload', payload.to_json,
-          { 'CONTENT_TYPE' => 'application/json'}
+        response = post '/payload', payload,
+          { 'CONTENT_TYPE' => 'application/json' }
 
         expect(response.status).to eq(200)
         expect(response.body).to be_empty
@@ -63,21 +62,51 @@ RSpec.describe GithubTrelloPoster do
     end
 
     context "invalid GitHub pull request payload is received" do
-      let(:invalid_payload) { { "stuff": "things" } }
+      let(:invalid_payload) { { "stuff": "things" }.to_json }
 
       it "does not successfully instantiate GitHubPullRequest" do
         expect(GitHubPullRequest).not_to receive(:new)
 
-        post '/payload', invalid_payload.to_json,
-          { 'CONTENT_TYPE' => 'application/json'}
+        post '/payload', invalid_payload,
+          { 'CONTENT_TYPE' => 'application/json' }
       end
 
       it "returns a 400 error" do
-        response = post '/payload', invalid_payload.to_json,
+        response = post '/payload', invalid_payload,
           { 'CONTENT_TYPE' => 'application/json'}
 
         expect(response.status).to eq(400)
         expect(response.body).to eq("Required payload fields missing")
+      end
+    end
+
+    context "PR review is requested" do
+      # Github sends two payloads when a PR review is requested, so this ensures
+      # only one payload is processed
+      let(:review_requested_payload) do
+        {
+          "action": "review_requested",
+          "number": 1,
+          "repository": {
+            "id": 1234
+          }
+        }.to_json
+      end
+      it "does not successfull instantiate GitHubPullRequest" do
+        expect(GitHubPullRequest).to receive(:new).once
+
+        post '/payload', payload, { 'CONTENT_TYPE' => 'application/json'}
+
+        post '/payload', review_requested_payload,
+          { 'CONTENT_TYPE' => 'application/json' }
+      end
+
+      it "returns a 200 status and 'Not processing payload' message" do
+        response = post '/payload', review_requested_payload,
+          { 'CONTENT_TYPE' => 'application/json' }
+
+        expect(response.status).to eq(200)
+        expect(response.body).to eq("Not processing payload")
       end
     end
   end
