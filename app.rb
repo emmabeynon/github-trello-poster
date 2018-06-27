@@ -40,10 +40,10 @@ class GithubTrelloPoster < Sinatra::Base
     payload.dig("repository", "id").present?
   end
 
-  # start the server if ruby file executed directly
-  run! if app_file == $0
-
   def review_requested?(payload)
     payload["action"] == "review_requested"
   end
+
+  # start the server if ruby file executed directly
+  run! if app_file == $0
 end
