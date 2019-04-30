@@ -34,7 +34,7 @@ GEM
     oauth (0.5.1)
     octokit (4.3.0)
       sawyer (~> 0.7.0, >= 0.5.3)
-    puma (3.6.0)
+    puma (3.12.1)
     rack (2.0.5)
     rack-protection (2.0.3)
       rack
