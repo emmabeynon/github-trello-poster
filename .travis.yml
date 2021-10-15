@@ -3,14 +3,3 @@ before_install:
 - gem update --system
 script:
 - bundle exec rspec spec
-deploy:
-  edge: true
-  provider: cloudfoundry
-  api: https://api.cloud.service.gov.uk
-  username: emma.beynon@digital.cabinet-office.gov.uk
-  password:
-    secure: i/Foewc5K7vWnSNA56M6ACpaMriC2nYu6300hACWcgwimfJaa6844qhj8ft9Y5CZkdG1IzZDH2sWawnqYKGNSe2RBGk83orktvQyHELXCSRSQoUEKVxq3vCUnysJOhGMY8EACtqg3mrEs8gJl3joNdzg/Of9yiO7slb8d3bU79FiDntlpKFfkdiuY85PmF6LANqiE6oX37lPY3y6tyLCU295iIuFLffE+cm2C8V9nvjYGg/AUDR5tf2/43XCzW2+uavO+n5b2uQWz+B9+XVu0azbkICvUntpSjghDSchWkYLfe7T7LHAse+jm0g0ySvRQADV9DdE6h1LD7WwWJCDk/mZe3QiPdETbG9BGETFE2GBtUJu1A6kkzPusojS81xhzBop1Ru/FgRJCoQwh6e4JohlG7OUdVSfC94mSwTbpMrChP4wGza/VjFv/q4usQaOJHdHX25ZYRPSkPLwkjpHofoC+4PKLG17drnmsjqggYXNmP98reHClhv2MkO8XDIWbrHMtUn43aJeU72LOfmzOu5SI/C2JRyjw0CNBZ5ZzDZFZ1aTKRdERDLdR7NAQBWtX65kyZ0a5db/9aD3RpLUYMl1EySwZiqmYnMEm2Y7Z8pGC4RJkIcttxwvNG3xie6yOnlaj2u+RWdWgwhbmXTdW1JFvDCXph5RKAa9a3C3mGo=
-  organization: gds-learning-development-projects
-  space: sandbox
-  on:
-    repo: emmabeynon/github-trello-poster
