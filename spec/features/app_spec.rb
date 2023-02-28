@@ -8,7 +8,7 @@ RSpec.describe GithubTrelloPoster do
 
   describe "GET '/'" do
     it "returns 200 response" do
-      response = get '/'
+      response = get "/"
       expect(response.status).to eq(200)
     end
   end
@@ -27,7 +27,7 @@ RSpec.describe GithubTrelloPoster do
         closed: false,
         pull_request_id: 1,
         repo_id: 1234,
-        trello_poster: trello_poster
+        trello_poster: trello_poster,
       }
     end
 
@@ -37,24 +37,23 @@ RSpec.describe GithubTrelloPoster do
         "action": "open",
         "number": 1,
         "repository": {
-          "id": 1234
-        }
+          "id": 1234,
+        },
       }.to_json
     end
 
     context "valid GitHub pull request payload is received" do
-
       it "successfully instantiates GitHubPullRequest" do
         expect(GitHubPullRequest).to receive(:new)
           .with(github_pull_request_params)
         expect(github_pull_request).to receive(:call)
 
-        post '/payload', payload, { 'CONTENT_TYPE' => 'application/json' }
+        post "/payload", payload, { "CONTENT_TYPE" => "application/json" }
       end
 
       it "returns a 200 status" do
-        response = post '/payload', payload,
-          { 'CONTENT_TYPE' => 'application/json' }
+        response = post "/payload", payload,
+                        { "CONTENT_TYPE" => "application/json" }
 
         expect(response.status).to eq(200)
         expect(response.body).to be_empty
@@ -67,13 +66,13 @@ RSpec.describe GithubTrelloPoster do
       it "does not successfully instantiate GitHubPullRequest" do
         expect(GitHubPullRequest).not_to receive(:new)
 
-        post '/payload', invalid_payload,
-          { 'CONTENT_TYPE' => 'application/json' }
+        post "/payload", invalid_payload,
+             { "CONTENT_TYPE" => "application/json" }
       end
 
       it "returns a 400 error" do
-        response = post '/payload', invalid_payload,
-          { 'CONTENT_TYPE' => 'application/json'}
+        response = post "/payload", invalid_payload,
+                        { "CONTENT_TYPE" => "application/json" }
 
         expect(response.status).to eq(400)
         expect(response.body).to eq("Required payload fields missing")
@@ -88,22 +87,23 @@ RSpec.describe GithubTrelloPoster do
           "action": "review_requested",
           "number": 1,
           "repository": {
-            "id": 1234
-          }
+            "id": 1234,
+          },
         }.to_json
       end
+
       it "does not successfull instantiate GitHubPullRequest" do
         expect(GitHubPullRequest).to receive(:new).once
 
-        post '/payload', payload, { 'CONTENT_TYPE' => 'application/json'}
+        post "/payload", payload, { "CONTENT_TYPE" => "application/json" }
 
-        post '/payload', review_requested_payload,
-          { 'CONTENT_TYPE' => 'application/json' }
+        post "/payload", review_requested_payload,
+             { "CONTENT_TYPE" => "application/json" }
       end
 
       it "returns a 200 status and 'Not processing payload' message" do
-        response = post '/payload', review_requested_payload,
-          { 'CONTENT_TYPE' => 'application/json' }
+        response = post "/payload", review_requested_payload,
+                        { "CONTENT_TYPE" => "application/json" }
 
         expect(response.status).to eq(200)
         expect(response.body).to eq("Not processing payload")

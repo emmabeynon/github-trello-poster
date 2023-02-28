@@ -1,43 +1,44 @@
-require 'sinatra/base'
-require 'dotenv'
+require "sinatra/base"
+require "dotenv"
 Dotenv.load
-require './lib/github_pull_request'
-require 'json'
-require 'logger'
+require "./lib/github_pull_request"
+require "json"
+require "logger"
 
 class GithubTrelloPoster < Sinatra::Base
-
   configure :production, :development do
     enable :logging
   end
 
-  get '/' do
+  get "/" do
     status 200
     erb :index
   end
 
-  post '/payload' do
+  post "/payload" do
     payload = JSON.parse(request.body.read)
-    return [200, 'Not processing payload'] if review_requested?(payload)
+    return [200, "Not processing payload"] if review_requested?(payload)
+
     if required_payload_fields(payload).present?
-      [200, '']
+      [200, ""]
     else
-      return [400, 'Required payload fields missing']
+      return [400, "Required payload fields missing"]
     end
     trello_poster = TrelloPoster.new
     GitHubPullRequest.new(
       closed: payload["action"] == "closed",
       pull_request_id: payload["number"],
       repo_id: payload["repository"]["id"],
-      trello_poster: trello_poster
+      trello_poster: trello_poster,
     ).call
   end
 
   def required_payload_fields(payload)
     return false if payload.nil?
+
     payload["action"].present? &&
-    payload["number"].present? &&
-    payload.dig("repository", "id").present?
+      payload["number"].present? &&
+      payload.dig("repository", "id").present?
   end
 
   def review_requested?(payload)
@@ -45,5 +46,5 @@ class GithubTrelloPoster < Sinatra::Base
   end
 
   # start the server if ruby file executed directly
-  run! if app_file == $0
+  run! if app_file == $PROGRAM_NAME
 end

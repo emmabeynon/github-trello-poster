@@ -1,10 +1,10 @@
-describe 'HTTP requests' do
-  describe 'POST /payload' do
-    it 'returns 204 code and empty body' do
+describe "HTTP requests" do
+  describe "POST /payload" do
+    it "returns 204 code and empty body" do
       uri = URI("https://github-trello-poster.cloudapps.digital/payload")
       request = Net::HTTP::Post.new(uri)
 
-      response = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+      response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == "https") do |http|
         http.request(request)
       end
 

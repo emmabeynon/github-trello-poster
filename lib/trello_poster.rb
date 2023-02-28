@@ -1,10 +1,10 @@
-require 'trello'
+require "trello"
 
 class TrelloPoster
   def initialize
     @client = Trello::Client.new(
-      :developer_public_key => ENV['TRELLO_PUBLIC_KEY'],
-      :member_token => ENV['TRELLO_MEMBER_TOKEN']
+      developer_public_key: ENV["TRELLO_PUBLIC_KEY"],
+      member_token: ENV["TRELLO_MEMBER_TOKEN"],
     )
   end
 
@@ -32,7 +32,7 @@ private
 
   def post_github_pr_url(pr_url, pr_checklist)
     item = pr_url_on_checklist(pr_checklist, pr_url)
-    pr_checklist.add_item(pr_url, checked=false, position='bottom') if item.nil?
+    pr_checklist.add_item(pr_url, checked = false, position = "bottom") if item.nil?
   end
 
   def check_off_pull_request(trello_card, pr_url)
@@ -46,9 +46,8 @@ private
 
   def create_pr_checklist(trello_card)
     client.create(:checklist,
-      "name" => "Pull Requests",
-      "idCard" => trello_card.id
-    )
+                  "name" => "Pull Requests",
+                  "idCard" => trello_card.id)
   end
 
   def is_a_pr_checklist?(checklist)
