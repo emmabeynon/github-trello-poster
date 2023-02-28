@@ -19,10 +19,10 @@ describe GitHubPullRequest do
 
   let(:github_pull_request_params) do
     {
-      repo_id: 60_356_369,
+      repo_id: 60_356369,
       pull_request_id: 1,
       closed: false,
-      trello_poster: trello_poster,
+      trello_poster: trello_poster
     }
   end
 
@@ -32,14 +32,14 @@ describe GitHubPullRequest do
   end
 
   describe "Default" do
-    let(:github_pr) { described_class.new(github_pull_request_params) }
+    let(:github_pr) { described_class.new(**github_pull_request_params) }
 
     it "initializes with a pull_request_id" do
       expect(github_pr.pull_request_id).to eq(1)
     end
 
     it "initializes with a repo_id" do
-      expect(github_pr.repo_id).to eq(60_356_369)
+      expect(github_pr.repo_id).to eq(60_356369)
     end
   end
 
@@ -48,7 +48,7 @@ describe GitHubPullRequest do
       it "instantiates GitHubPullRequest" do
         expect(trello_poster).to receive(:post!)
           .with(repo_pull_request[:html_url], "6wQLN2C7", false)
-        described_class.new(github_pull_request_params).call
+        described_class.new(**github_pull_request_params).call
       end
     end
 
@@ -59,7 +59,7 @@ describe GitHubPullRequest do
 
       it "does not instantiate GitHubPullRequest" do
         expect(trello_poster).not_to receive(:post!)
-        described_class.new(github_pull_request_params).call
+        described_class.new(**github_pull_request_params).call
       end
     end
   end
