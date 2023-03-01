@@ -103,7 +103,7 @@ RSpec.configure do |config|
   #   Kernel.srand config.seed
 
   config.before do
-    stub_request(:post, "https://github-trello-poster.cloudapps.digital/payload")
+    stub_request(:post, "https://govuk-github-trello-poster.herokuapp.com/payload")
       .to_return(status: 204, body: "", headers: {})
   end
 end
