@@ -6,41 +6,28 @@ This app uses GitHub webhooks to be notified when a Pull Request is opened or ch
 ## User Stories
 ```
 As a GOV.UK developer
-
 So that I can make sure that the Trello card I am working on has the correct PR information
-
 I would like a link to relevant PRs to be automatically added to the Trello card.
+```
 
-
+```
 As a GOV.UK developer
-
 So that I can make sure that Pull Request information on the Trello card I am working on is up to date
-
 I would like the link to a Pull Request to be checked off after I have merged it.
 ```
 
 ## Technical Documentation
 This app is built using Ruby and Sinatra.  It makes use of GitHub webhooks to receive pull request information, and the Trello API to post pull request information to Trello cards.
 
-#### Setting up the app
-1. Clone the repo down to your local machine.
-2. Run `bundle install`.
-3. Get your [GitHub access token](https://help.github.com/articles/creating-an-access-token-for-command-line-use/) and assign to the `GITHUB_ACCESS_TOKEN` environment variable.
-4. Get your [Trello developer API key](https://trello.com/app-key) and assign to the `TRELLO_PUBLIC_KEY` environment variable. You may also find this key using [ruby-trello's](https://github.com/jeremytregunna/ruby-trello) helpful methods.
-5. Get your [Trello user token](https://developers.trello.com/authorize) and assign to the `TRELLO_MEMBER_TOKEN` environment variable. You may also find this token using [ruby-trello's](https://github.com/jeremytregunna/ruby-trello) helpful methods.
-6. To set up a Webhook:
+### Setting up the app
+1. Run `bundle install`.
+1. Get your [GitHub access token](https://help.github.com/articles/creating-an-access-token-for-command-line-use/) and assign to the `GITHUB_ACCESS_TOKEN` environment variable. On GOV.UK, we use a token associated with the govuk-ci user.
+1. Create a Trello account and add it to your team's Trello board, giving read and write access. On GOV.UK, we use the [@pullrequestposter](https://trello.com/u/pullrequestposter) user.
+1. Get your [Trello developer API key](https://trello.com/app-key) and assign to the `TRELLO_PUBLIC_KEY` environment variable. You may also find this key using [ruby-trello's](https://github.com/jeremytregunna/ruby-trello) helpful methods.
+1. Get your [Trello user token](https://developers.trello.com/authorize) and assign to the `TRELLO_MEMBER_TOKEN` environment variable. You may also find this token using [ruby-trello's](https://github.com/jeremytregunna/ruby-trello) helpful methods.
+1. Deploy github-trello-poster to your preferred platform, or run locally with `ruby app.rb` and use [ngrok](https://ngrok.com/) to open a secure tunnel to your localhost.
+1. Set up the webhook between your repo(s) and github-trello-poster. This is [done automatically by govuk-saas-config](https://github.com/alphagov/govuk-saas-config/blob/ac02bd03637f41e7274c739bcb650fcabca1121e/github/lib/configure_repo.rb#L57-L77) for all GOV.UK repos. To set it up manually, go into your repo settings in GitHub and create a webhook pointing to your payload URL ('https://[insert-your-site-here]/payload'), select a content type of `application/json`, then finally choose 'Let me select individual events' and check the 'Pull requests' box.
 
-    a. Navigate to your chosen organisation or repository's settings on GitHub. Select 'Webhooks' and click 'Add webhook'  
-
-    b. Paste your payload URL (i.e. 'https://[insert-your-site-here]/payload') in the Payload URL box.
-
-    c. Select content type as application/json.
-
-    d. Select 'Let me select individual events' and check the 'Pull requests' box.
-
-    e. Leave the Active checkbox checked, and save.
-7. Deploy to your preferred platform, or to run locally, run `ruby app.rb`.  If running locally, I would recommend using [ngrok](https://ngrok.com/) to create a secure tunnel to your localhost.
-
-#### Running the test suite
+### Running the test suite
 Run `bundle exec rspec`.
 Note the feature tests require real-world set up of Trello cards and GitHub repos, and you will need to amend the tests accordingly.
